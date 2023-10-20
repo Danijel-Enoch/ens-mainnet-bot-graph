@@ -1,0 +1,42 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: PunkTld
+    network: mainnet
+    source:
+      address: "0x5d608c48EFE54a19dfb3c77d78863587f797eFAE"
+      abi: PunkTld
+      startBlock: 18372836
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - DataChanged
+        - DefaultDomainChanged
+        - DomainCreated
+        - OwnershipTransferred
+        - Transfer
+      abis:
+        - name: PunkTld
+          file: ./abis/PunkTld.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: DataChanged(indexed address)
+          handler: handleDataChanged
+        - event: DefaultDomainChanged(indexed address,string)
+          handler: handleDefaultDomainChanged
+        - event: DomainCreated(indexed address,indexed address,indexed string)
+          handler: handleDomainCreated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/punk-tld.ts
